@@ -1,0 +1,84 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <div class="profile-userpic text-center">
+                    <img alt=""
+                         class="img-responsive"
+                         src="https://gravatar.com/avatar/31b64e4876d603ce78e04102c67d6144?s=80&d=https://codepen.io/assets/avatars/user-avatar-80x80-bdcd44a3bfb9a5fd01eb8b86f9e033fa1a9897c3a15b33adfc2649a002dab1b6.png">
+                </div>
+                <div class="profile-usertitle">
+                    <span class="lead">@{{ profile.user }}</span>
+                    <div class="profile-usertitle-name">
+                        {{ profile.name }}
+                    </div>
+                    <div class="profile-usertitle-job">
+                        Profeession
+                    </div>
+                </div>
+                <div class="text-center">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><i class="fab fa-github"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-linkedin-in"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-instagram"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-twitter"></i></li>
+                    </ul>
+
+                </div>
+                <div class="profile-userbuttons">
+                    <a class="btn btn-success btn-sm" href="{% url 'edit-profile' profile.uuid %}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'add-project' %}">Add Project</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'add-skill' %}">Add Skill</a>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="profile-content">
+                <h2>Bio</h2>
+                <p>lorem ispum Documentation and examples for badges, our small count and labeling component.lorem ispum
+                    Documentation and examples for badges, our small count and labeling component.lorem ispum
+                    Documentation and examples for badges, our small count and labeling component.</p>
+            </div>
+            <div class="profile-content">
+                <h2>Skills</h2>
+                <div>
+                    <ul class="list-inline">
+                        {% for skill in skills %}
+                        <li class="list-inline-item"><span class="badge text-bg-info"
+                                                           style="background-color:#e6faff!important;">{{ skill.title }}</span></li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="profile-content">
+                <h2>Projects</h2>
+                <div class="">
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        {% for project in projects %}
+                        <div class="col">
+                            <div class="card" style="box-shadow:none;height: 500px;">
+                                <img alt="..." class="card-img-top" src="{{ project.thumbnail.url }}"
+                                     style="max-height: 350px;">
+                                <div class="card-body">
+                                    <h4 class="card-title"><a href="{% url 'project-details' project.uuid %}">
+                                        {{ project.title }}</a></h4>
+                                    <p class="card-text">{{ project.brief }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+{% endblock %}
