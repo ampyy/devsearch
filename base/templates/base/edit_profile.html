@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+{% if request.user == profile_user %}
 <div class="container">
     <div class="row justify-content-center mt-3">
         <div class="col-md-5 col-sm-12 border-bottom">
@@ -11,7 +12,7 @@
 
     <div class="row justify-content-center mt-3 mb-5">
         <div class="col-md-5 col-sm-12 border-bottom">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
                 {{ form | crispy }}
                 <div class="d-grid gap-2">
@@ -21,4 +22,9 @@
         </div>
     </div>
 </div>
+{% else %}
+<script>
+    window.location.replace("http://127.0.0.1:8000/");
+</script>
+{% endif %}
 {% endblock content %}

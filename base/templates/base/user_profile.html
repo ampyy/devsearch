@@ -1,0 +1,111 @@
+{% extends "base/base.html" %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <div class="profile-userpic text-center">
+                    <img alt=""
+                         class="img-responsive"
+                         src="{{ profile.profile_picture.url }}">
+                </div>
+                <div class="profile-usertitle">
+                    <span class="lead">@{{ profile.user }}</span>
+                    <div class="profile-usertitle-name">
+                        {{ profile.name }}
+                    </div>
+                    <div class="profile-usertitle-job">
+                        {{ profile.profession }}
+                    </div>
+                </div>
+                <div class="text-center">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="{{ profile.github_link }}" target="_blank"><i
+                                class="fab fa-github"></i></a></li>
+                        <li class="list-inline-item"><a href="{{ profile.linkedin_link }}" target="_blank"><i
+                                class="fab fa-linkedin"></i></a></li>
+                        <li class="list-inline-item"><a href="{{ profile.instagram_link }}" target="_blank"><i
+                                class="fab fa-instagram"></i></a></li>
+                    </ul>
+
+                </div>
+                {% if request.user == profile.user %}
+                <div class="profile-userbuttons">
+                    <a class="btn btn-outline-success btn-sm rounded"
+                       href="{% url 'edit-profile' profile.uuid %}">Edit</a>
+                    <a class="btn btn-outline-primary btn-sm rounded" href="{{ profile.portfolio_link }}">My Website</a>
+                </div>
+                {% endif %}
+                <br>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="profile-content">
+                <h2>Bio</h2>
+                <hr>
+                <p>{{ profile.about_yourself }}</p>
+            </div>
+            <div class="profile-content">
+                <h2>Skills
+                    {% if request.user == profile.user %}
+                    <a class="" href="{% url 'add-skill' %}">
+                        <img src="{% static 'images/plus.png' %}" style="width:35px;height:35px;float:right"/></a>
+                    {% endif %}
+                </h2>
+                <hr>
+                <div>
+                    <ul class="list-inline">
+                        {% for skill in skills %}
+                        <li class="list-inline-item"><span class="badge text-bg-info"
+                                                           style="background-color:#e6faff!important;">{{ skill.title }}
+                             {% if request.user == profile.user %}
+                            <a href="{% url 'delete-skill' skill.uuid %}"><img
+                                src="{% static 'images/delete.png' %}" style="width:25px;height:25px;"/></a>
+                        {% endif %}
+                        </span></li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="profile-content">
+                <h2>Projects
+                    {% if request.user == profile.user %}
+                    <a class="" href="{% url 'add-project' %}">
+                        <img src="{% static 'images/plus.png' %}" style="width:35px;height:35px;float:right"/></a>
+                    {% endif %}
+                </h2>
+                <hr>
+                <div class="">
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        {% for project in projects %}
+                        <div class="col">
+                            <div class="card" style="box-shadow:none;height: 500px;">
+                                <img alt="..." class="card-img-top" src="{{ project.thumbnail.url }}"
+                                     style="max-height: 350px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{% url 'project-details' project.uuid %}">
+                                            {{ project.title }}</a>
+                                        {% if request.user == profile.user %}<a
+                                            href="{% url 'delete-project' project.uuid %}"><img
+                                            src="{% static 'images/delete.png' %}" style="width:35px;height:35px;"/></a>
+                                        {% endif %}
+                                    </h4>
+                                    <p class="card-text">{{ project.brief }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+{% endblock %}

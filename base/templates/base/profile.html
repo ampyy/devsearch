@@ -1,6 +1,7 @@
 {% extends "base/base.html" %}
-
+{% block title %} Profile {% endblock %}
 {% block content %}
+{% load static %}
 <div class="container">
     <div class="row profile">
         <div class="col-md-3">
@@ -8,30 +9,44 @@
                 <div class="profile-userpic text-center">
                     <img alt=""
                          class="img-responsive"
-                         src="https://gravatar.com/avatar/31b64e4876d603ce78e04102c67d6144?s=80&d=https://codepen.io/assets/avatars/user-avatar-80x80-bdcd44a3bfb9a5fd01eb8b86f9e033fa1a9897c3a15b33adfc2649a002dab1b6.png">
+                         src="{{ profile.profile_picture.url }}">
                 </div>
                 <div class="profile-usertitle">
                     <span class="lead">@{{ profile.user }}</span>
                     <div class="profile-usertitle-name">
+                        {% if profile.name %}
                         {{ profile.name }}
+                        {% endif %}
                     </div>
                     <div class="profile-usertitle-job">
-                        Profeession
+                        {% if profile.profession %}
+                        {{ profile.profession }}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="text-center">
                     <ul class="list-inline">
-                        <li class="list-inline-item"><i class="fab fa-github"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-linkedin-in"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-instagram"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-twitter"></i></li>
+                        {% if profile.github_link %}
+                        <li class="list-inline-item"><a href="{{ profile.github_link }}" target="_blank"><i
+                                class="fab fa-github"></i></a></li>
+                        {% endif %}
+                        {% if profile.linkedin_link %}
+                        <li class="list-inline-item"><a href="{{ profile.linkedin_link }}" target="_blank"><i
+                                class="fab fa-linkedin"></i></a></li>
+                        {% endif %}
+                        {% if profile.instagram_link %}
+                        <li class="list-inline-item"><a href="{{ profile.instagram_link }}" target="_blank"><i
+                                class="fab fa-instagram"></i></a></li>
+                        {% endif %}
                     </ul>
 
                 </div>
                 <div class="profile-userbuttons">
-                    <a class="btn btn-success btn-sm" href="{% url 'edit-profile' profile.uuid %}">Edit</a>
-                    <a class="btn btn-danger btn-sm" href="{% url 'add-project' %}">Add Project</a>
-                    <a class="btn btn-danger btn-sm" href="{% url 'add-skill' %}">Add Skill</a>
+                    <a class="btn btn-outline-success btn-sm rounded"
+                       href="{% url 'edit-profile' profile.uuid %}">Edit</a>
+                    {% if profile.portfolio_link %}
+                    <a class="btn btn-outline-primary btn-sm rounded" target="_blank" href="{{ profile.portfolio_link }}">My Website</a>
+                    {% endif %}
                 </div>
                 <br>
             </div>
@@ -39,35 +54,47 @@
         <div class="col-md-9">
             <div class="profile-content">
                 <h2>Bio</h2>
-                <p>lorem ispum Documentation and examples for badges, our small count and labeling component.lorem ispum
-                    Documentation and examples for badges, our small count and labeling component.lorem ispum
-                    Documentation and examples for badges, our small count and labeling component.</p>
+                <hr>
+                <p>{{ profile.about_yourself }}</p>
             </div>
             <div class="profile-content">
-                <h2>Skills</h2>
+                <h2>Skills<a class="" href="{% url 'add-skill' %}">
+                    <img src="{% static 'images/plus.png' %}" style="width:35px;height:35px;float:right"/></a></h2>
+                <hr>
                 <div>
                     <ul class="list-inline">
                         {% for skill in skills %}
                         <li class="list-inline-item"><span class="badge text-bg-info"
-                                                           style="background-color:#e6faff!important;">{{ skill.title }}</span></li>
+                                                           style="background-color:#e6faff!important;">{{ skill.title }}<a
+                                href="{% url 'delete-skill' skill.uuid %}"><img
+                                src="{% static 'images/delete.png' %}" style="width:25px;height:25px;"/></a></span></li>
                         {% endfor %}
 
                     </ul>
                 </div>
             </div>
             <div class="profile-content">
-                <h2>Projects</h2>
+                <h2>Projects <a class="" href="{% url 'add-project' %}">
+                    <img src="{% static 'images/plus.png' %}" style="width:35px;height:35px;float:right"/></a></h2>
+                <hr>
                 <div class="">
                     <div class="row row-cols-1 row-cols-md-2 g-4">
                         {% for project in projects %}
                         <div class="col">
-                            <div class="card" style="box-shadow:none;height: 500px;">
+                            <div class="card" style="box-shadow:none;height: 550px;">
                                 <img alt="..." class="card-img-top" src="{{ project.thumbnail.url }}"
                                      style="max-height: 350px;">
                                 <div class="card-body">
                                     <h4 class="card-title"><a href="{% url 'project-details' project.uuid %}">
-                                        {{ project.title }}</a></h4>
-                                    <p class="card-text">{{ project.brief }}</p>
+                                        {{ project.title }}</a><a href="{% url 'delete-project' project.uuid %}"><img
+                                            src="{% static 'images/delete.png' %}" style="width:35px;height:35px;"/></a>
+                                    </h4>
+                                    <p class="card-text">{{ project.tagline }}</p>
+
+                                   <span class="badge bg-info text-dark">tags - {{ project.techstack }}</span>
+                                </div>
+                                <div class="m-2 card-footer">
+                                    published on - {{ project.datetime }}
                                 </div>
                             </div>
                         </div>

@@ -138,8 +138,8 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-LOGIN_REDIRECT_URL = 'index'
-
+LOGIN_REDIRECT_URL = 'profile'
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
 CKEDITOR_CONFIGS = {
     'default': {
         'height': 'full',

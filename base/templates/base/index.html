@@ -1,7 +1,6 @@
 {% extends "base/base.html" %}
-
+{% block title %} Home {% endblock %}
 {% block content %}
-
 <div class="px-4 py-3 text-center" id="hero">
     <h1 class="display-5 color-1 mt-4">CONNECT WITH DEVELOPERS</h1>
     <div class="col-lg-6 mx-auto">
@@ -11,8 +10,10 @@
                 <div class="row height d-flex justify-content-center align-items-center">
                     <div class="col-md-8">
                         <div class="search">
+                            <form>
                             <i class="fa fa-search"></i>
                             <input class="form-control" placeholder="Have a question? Ask Now" type="text">
+                            </form>
                         </div>
                     </div>
                 </div>

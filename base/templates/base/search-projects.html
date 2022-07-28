@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}  {% endblock %}
+{% block content %}
+<div class="form-outline" style="width: 60%; margin: 0 auto;">
+    <div class="search">
+        <form action="{% url 'search-projects' %}">
+            <i class="fa fa-search"></i>
+            <input name="q" class="form-control" placeholder="Type project name, technologies, user?" type="text">
+        </form>
+    </div>
+</div>
+<section>
+    <div class="container py-5">
+        {% for project in projects %}
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-12 col-xl-10">
+                <div class="card shadow-0 border rounded-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                                <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                                    <img src="{{ project.thumbnail.url }}"
+                                         class="w-100"/>
+                                    <a href="#!">
+                                        <div class="hover-overlay">
+                                            <div class="mask"
+                                                 style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-6">
+                                <h4>{{ project.title }}</h4>
+                                <span class=" mb-4 mb-md-0">
+                                    {{ project.tagline}}
+                                </span>
+                                <p class="mb-1 me-1"> by <a href="{% url 'user-profile' project.user.uuid %}">
+                                    {{ project.user }}</a></p>
+                                <div class="mt-1 mb-0 text-muted small">
+                                    <span>{{ project.techstack }}</span>
+                                </div>
+                                <p class="text-truncate mb-4 mb-md-0">
+
+                                </p>
+                            </div>
+                            <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                                <div class="d-flex flex-row align-items-center mb-1">
+                                    {% if project.user.name %}
+                                    <h6 class="text-primary">{{ project.user.name }}</h6>
+                                    {% endif %}
+                                </div>
+                                {% if project.user.profession %}
+                                <span class="text-primary">{{ project.user.profession }}</span>
+                                <br>
+                                {% endif %}
+                                {% if project.user.location %}
+                                <span class="text-primary">{{ project.user.location }}</span>
+                                {% endif %}
+                                <div class="d-flex flex-column mt-4">
+                                    <a class="btn btn-primary btn-sm" href="{% url 'project-details' project.uuid %}">More...</a>
+                                    <a class="btn btn-outline-primary btn-sm mt-2">
+                                        connect<>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
